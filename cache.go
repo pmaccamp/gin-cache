@@ -115,7 +115,7 @@ func cache(
 			respCache.fillWithCacheWriter(cacheWriter, cfg.withoutHeader)
 
 			// only cache 2xx response
-			if !c.IsAborted() && cacheWriter.Status() < 300 && cacheWriter.Status() >= 200 {
+			if !c.IsAborted() && cacheWriter.Status() < 300 && cacheWriter.Status() >= 200 && !strings.Contains(c.GetHeader("Cache-Control"),"no-store") {
 				if err := cacheStore.Set(cacheKey, respCache, cacheDuration); err != nil {
 					cfg.logger.Errorf("set cache key error: %s, cache key: %s", err, cacheKey)
 				}
