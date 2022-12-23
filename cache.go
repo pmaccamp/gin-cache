@@ -250,6 +250,9 @@ func replyWithCache(
 	if !cfg.withoutHeader {
 		for key, values := range respCache.Header {
 			for _, val := range values {
+				if (key=="Content-Encoding" && val=="gzip") {
+					continue
+				}
 				c.Writer.Header().Set(key, val)
 			}
 		}
